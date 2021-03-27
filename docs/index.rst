@@ -9,8 +9,7 @@ Welcome to RandomDataset's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-   randomdataset
+   
 
 Indices and tables
 ==================
