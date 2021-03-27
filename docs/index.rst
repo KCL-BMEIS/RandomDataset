@@ -10,7 +10,7 @@ Welcome to RandomDataset's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   randomdataset
 
 Indices and tables
 ==================
