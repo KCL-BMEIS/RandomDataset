@@ -4,9 +4,12 @@
 import json
 from itertools import islice, starmap
 from typing import IO
-from .dataset import Dataset
+
+from ..dataset import Dataset
 from .generator import StreamDataGenerator
-from .fields import FieldTypes
+from ..fields import FieldTypes
+
+__all__ = ["CSVGenerator"]
 
 
 class CSVGenerator(StreamDataGenerator):
@@ -15,6 +18,7 @@ class CSVGenerator(StreamDataGenerator):
         super().__init__(dataset, check_file_exists, use_temp_dir)
         self.num_lines: int = num_lines
         self.write_header: bool = write_header
+        self.sep = ", "
 
     def _format_value(self, value, ftype) -> str:
         if ftype == FieldTypes.STRING:
@@ -25,7 +29,7 @@ class CSVGenerator(StreamDataGenerator):
     def write_stream(self, stream: IO):
         def _get_line(line_values, line_types):
             line_values = starmap(self._format_value, zip(line_values, line_types))
-            return ",".join(line_values)
+            return self.sep.join(line_values)
 
         if self.write_header:
             line = self.dataset.field_names

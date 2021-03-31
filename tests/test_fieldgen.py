@@ -4,7 +4,7 @@
 
 import unittest
 
-from randomdataset import StrFieldGen, IntFieldGen
+from randomdataset import StrFieldGen, IntFieldGen, DateTimeFieldGen
 
 
 class TestStrFieldGen(unittest.TestCase):
@@ -23,3 +23,15 @@ class TestStrFieldGen(unittest.TestCase):
 
         self.assertIsInstance(s, int)
         self.assertTrue(0 <= s < 10)
+
+    def test_datetime_basic(self):
+        gen = DateTimeFieldGen("test")
+
+        s=gen()
+        self.assertIsInstance(s,float)
+
+    def test_datetime_str(self):
+        gen = DateTimeFieldGen("test",as_string=True)
+
+        s=gen()
+        self.assertIsInstance(s,str)

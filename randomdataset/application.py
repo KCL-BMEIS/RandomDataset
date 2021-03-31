@@ -4,7 +4,7 @@
 import click
 from .fields import StrFieldGen, IntFieldGen, FloatFieldGen
 from .dataset import Dataset
-from .csvgenerator import CSVGenerator
+from .generator import CSVGenerator
 
 __all__ = ["simple_csv"]
 

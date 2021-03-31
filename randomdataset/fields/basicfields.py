@@ -1,50 +1,14 @@
 # RandomDataset
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
+import datetime
+from typing import Optional
 
-from enum import Enum
-from typing import Optional, Tuple
-import numpy as np
+from .fieldgen import FieldGen, FieldTypes, OptShapeType, OptRandStateType
 
 __all__ = [
-    "FieldTypes", "FieldGen", "IntFieldGen", "FloatFieldGen", "StrFieldGen", "ASCIIFieldGen", "SetFieldGen",
-    "BoolFieldGen"
+    "IntFieldGen", "FloatFieldGen", "StrFieldGen", "ASCIIFieldGen", "SetFieldGen", "BoolFieldGen", "DateTimeFieldGen"
 ]
-
-
-class FieldTypes(Enum):
-    """Data types produced by FieldGen objects."""
-    STRING = str
-    INTEGER = int
-    FLOAT = float
-    BOOL = bool
-
-
-OptShapeType = Optional[Tuple[int]]
-OptRandStateType = Optional[np.random.RandomState]
-
-
-class FieldGen:
-    """
-    Base class for generating field data. Inheriting classes will generate data corresponding to their `field_type`
-    attribute, using the default random state `R` or the one passed through the constructor
-    
-    Args:
-        name: name of the field
-        field_type: type of data produced by the generator, or np.ndarray structures thereof
-        rand_state: random state to generate data from
-    """
-    R: np.random.RandomState = np.random.RandomState()
-
-    def __init__(self, name: str, field_type: FieldTypes, rand_state: OptRandStateType = None):
-        self.name: str = name
-        self.field_type: FieldTypes = field_type
-
-        if rand_state is not None:
-            self.R = rand_state
-
-    def __call__(self, shape: OptShapeType = None):
-        pass
 
 
 class IntFieldGen(FieldGen):
@@ -110,3 +74,41 @@ class BoolFieldGen(FieldGen):
         result = self.R.randint(0, 2) == 1
 
         return str(result) if self.as_string else result
+
+
+class DateTimeFieldGen(FieldGen):
+    def __init__(self, name: str, start_time: Optional[float] = None, end_time: Optional[float] = None,
+                 as_string: bool = False, rand_state: OptRandStateType = None, ftimeformat: Optional[str] = None):
+        super().__init__(name, FieldTypes.STRING if as_string else FieldTypes.BOOL, rand_state)
+        self.as_string = as_string
+        self.ftimeformat = ftimeformat
+
+        if start_time is None:
+            self.start_time = (datetime.datetime.now() - datetime.timedelta(days=365)).timestamp()
+        else:
+            self.start_time = start_time
+
+        if end_time is None:
+            self.end_time = datetime.datetime.now().timestamp()
+        else:
+            self.end_time = end_time
+
+    def _format(self, timestamp):
+        dt = datetime.datetime.fromtimestamp(timestamp)
+
+        if self.ftimeformat is not None:
+            return dt.strftime(self.ftimeformat)
+        else:
+            return str(dt)
+
+    def __call__(self, shape: OptShapeType = None):
+        rand_val = self.R.rand() if shape is None else self.R.rand(*shape)
+        rand_time = rand_val * (self.end_time - self.start_time) + self.start_time
+
+        if self.as_string:
+            if shape is None:
+                return self._format(rand_time)
+            else:
+                return list(map(self._format, rand_time))
+        else:
+            return rand_time
