@@ -2,7 +2,7 @@
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
 
-from .dataset import Dataset
+from ..dataset import Dataset
 
 import shutil
 from pathlib import Path
