@@ -4,4 +4,6 @@
 from .application import *
 from .fields import *
 from .dataset import Dataset
-from .generator import *
+from .generators import *
+from .schemaparser import *
+

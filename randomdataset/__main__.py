@@ -3,6 +3,5 @@
 
 
 if __name__ == "__main__":
-    from .application import simple_csv
-
-    simple_csv()
+    from .application import generate_dataset
+    generate_dataset()

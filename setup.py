@@ -10,6 +10,6 @@ setup(
     author="Eric Kerfoot",
     author_email="eric.kerfoot@kcl.ac.uk",
     packages=find_packages(),
-    install_requires=["numpy", "pandas", "click"],
-    entry_points={"console_scripts": ["simplecsv = randomdataset:simple_csv"]},
+    install_requires=["numpy", "pandas", "click", "pyyaml"],
+    entry_points={"console_scripts": ["generate_dataset = randomdataset:generate_dataset"]},
 )

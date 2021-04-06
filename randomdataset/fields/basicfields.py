@@ -4,28 +4,46 @@
 import datetime
 from typing import Optional
 
+import numpy as np
+
 from .fieldgen import FieldGen, FieldTypes, OptShapeType, OptRandStateType
 
 __all__ = [
-    "IntFieldGen", "FloatFieldGen", "StrFieldGen", "ASCIIFieldGen", "SetFieldGen", "BoolFieldGen", "DateTimeFieldGen"
+    "IntFieldGen", "FloatFieldGen", "StrFieldGen", "ASCIIFieldGen", "SetFieldGen", "BoolFieldGen", "DateTimeFieldGen",
+    "UIDFieldGen"
 ]
 
 
 class IntFieldGen(FieldGen):
-    def __init__(self, name: str, vmin=0, vmax=100, rand_state: OptRandStateType = None):
+    def __init__(self, name: str, vmin: int = 0, vmax: int = 100, rand_state: OptRandStateType = None):
         super().__init__(name, FieldTypes.INTEGER, rand_state)
-        self.vmin = vmin
-        self.vmax = vmax
+        self.vmin: int = vmin
+        self.vmax: int = vmax
 
     def __call__(self, shape: OptShapeType = None):
         return self.R.randint(self.vmin, self.vmax, shape)
 
 
+class UIDFieldGen(FieldGen):
+    def __init__(self, name: str, start_value: int = 0, rand_state: OptRandStateType = None):
+        super().__init__(name, FieldTypes.INTEGER, rand_state)
+        self.value = start_value
+
+    def __call__(self, shape: OptShapeType = None):
+        if shape is None:
+            self.value += 1
+            return self.value - 1
+        else:
+            values = np.arange(self.value, self.value + np.product(*shape))
+            self.value = values[-1]
+            return values.reshape(shape)
+
+
 class FloatFieldGen(FieldGen):
-    def __init__(self, name: str, vmin=0, vmax=1.0, rand_state: OptRandStateType = None):
+    def __init__(self, name: str, vmin: float = 0, vmax: float = 1.0, rand_state: OptRandStateType = None):
         super().__init__(name, FieldTypes.FLOAT, rand_state)
-        self.vmin = vmin
-        self.vmax = vmax
+        self.vmin: float = vmin
+        self.vmax: float = vmax
 
     def __call__(self, shape: OptShapeType = None):
         if shape is not None:

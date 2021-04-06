@@ -2,28 +2,26 @@
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
 import click
-from .fields import StrFieldGen, IntFieldGen, FloatFieldGen
-from .dataset import Dataset
-from .generator import CSVGenerator
+from .generators import DataGenerator
+from .schemaparser import parse_schema
+from .utils import find_type_def
 
-__all__ = ["simple_csv"]
-
-field_template = {
-    "name": StrFieldGen("Name", 6, 12),
-    "age": IntFieldGen("Age", 1, 90),
-    "height": IntFieldGen("Height", 50, 250),
-    "bmi": FloatFieldGen("BMI", 16, 32)
-}
+__all__ = ["generate_dataset"]
 
 
 @click.command()
-@click.argument("output", type=click.File('w'))
-@click.option("-f", "fields", multiple=True, nargs=1, type=str)
+@click.argument("schema", type=click.File('r', lazy=True))
+@click.argument("output", type=click.Path(writable=True, resolve_path=True))
 @click.option("-n", "num_lines", default=10, type=int)
-def simple_csv(output, fields, num_lines):
-    chosen = [field_template[f] for f in fields]
-    ds = Dataset("ds", chosen)
+@click.option("-g", "generator", default="randomdataset.generators.CSVGenerator", type=str)
+def generate_dataset(schema, output, num_lines, generator):
+    print(f"Schema: '{schema}'")
+    print(f"Output: '{output}'")
+    print(f"Generating {num_lines} lines with '{generator}'")
 
-    csv = CSVGenerator(ds, num_lines)
+    datasets = parse_schema(schema)
+    gen_type = find_type_def(generator)
 
-    csv.write_file(output)
+    for ds in datasets:
+        gen: DataGenerator = gen_type(dataset=ds, num_lines=num_lines)
+        gen.write_to_target(output)

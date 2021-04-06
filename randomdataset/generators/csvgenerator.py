@@ -15,8 +15,7 @@ __all__ = ["CSVGenerator"]
 class CSVGenerator(StreamDataGenerator):
     def __init__(self, dataset: Dataset, num_lines: int, write_header: bool = True, check_file_exists: bool = True,
                  use_temp_dir: bool = True):
-        super().__init__(dataset, check_file_exists, use_temp_dir)
-        self.num_lines: int = num_lines
+        super().__init__(dataset, num_lines, check_file_exists, use_temp_dir)
         self.write_header: bool = write_header
         self.sep = ", "
 

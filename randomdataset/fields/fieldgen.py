@@ -2,7 +2,7 @@
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
 from enum import Enum
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Any
 import numpy as np
 
 __all__ = ["FieldTypes", "FieldGen", "OptRandStateType", "OptShapeType"]
@@ -35,9 +35,18 @@ class FieldGen:
     def __init__(self, name: str, field_type: FieldTypes, rand_state: OptRandStateType = None):
         self.name: str = name
         self.field_type: FieldTypes = field_type
+        self._parent: Optional[Any] = None
 
         if rand_state is not None:
             self.R = rand_state
 
     def __call__(self, shape: OptShapeType = None):
         pass
+
+    @property
+    def parent(self):
+        return self._parent
+
+    @parent.setter
+    def parent(self, parent):
+        self._parent = parent
