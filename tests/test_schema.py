@@ -31,6 +31,11 @@ ex2 = """
 """
 
 
+ex3 = """
+- name: testset
+  typename: randomdataset.Dataset
+"""
+
 class TestSchema(unittest.TestCase):
     def test_simple_schema(self):
         s = StringIO(ex1)
@@ -66,3 +71,10 @@ class TestSchema(unittest.TestCase):
 
         for f in ds0.fields:
             self.assertTrue(isinstance(f, FieldGen), f"{f} not FieldGen")
+            
+    def test_missing_param(self):
+        s = StringIO(ex3)
+        s.seek(0)
+
+        with self.assertRaises(ValueError):
+            ds = parse_schema(s)

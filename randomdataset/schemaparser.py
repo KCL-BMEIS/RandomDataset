@@ -24,6 +24,7 @@ argument to pass to the constructor. For example, to create a single dataset ite
 
 from typing import Union, IO, List
 from enum import Enum
+from inspect import signature, _empty
 import yaml
 
 from .dataset import Dataset
@@ -41,20 +42,25 @@ class ConstrSchemaFields(Enum):
 
 def parse_obj_constr(schema_dict):
     """
-    Parse and construct an object from the given schema dictionary. The fields inf `ConstrSchemaFields` must be in this
-    dictionary, other fields become keyword arguments in the constructor.
+    Parse and construct an object from the given schema dictionary. The field `ConstrSchemaFields.TYPENAME` must be in
+    this dictionary, which is keyed to the fully-qualified name of the type to construct. Other fields become keyword 
+    arguments in the constructor call.
     """
 
-    for f in ConstrSchemaFields:
-        if f.value not in schema_dict:
-            raise ValueError(f"Field `{f.value}` missing from schema, keys are {list(schema_dict)}")
+    if ConstrSchemaFields.TYPENAME.value not in schema_dict:
+        raise ValueError("Schema must include 'typename' value")
 
     schema_dict = dict(schema_dict)  # shallow copy to allow pop
 
     typename = schema_dict.pop(ConstrSchemaFields.TYPENAME.value)
-    name = schema_dict.pop(ConstrSchemaFields.NAME.value)
-
     typeconstr = find_type_def(typename)
+    
+    sig=signature(typeconstr)
+    
+    missing_params=[k for k,v in sig.parameters.items() if k not in schema_dict and v.default is _empty]
+    
+    if missing_params:
+        raise ValueError(f"Missing values for these parameters of type '{typename}': {','.join(missing_params)}")
 
     args = {}
 
@@ -68,7 +74,7 @@ def parse_obj_constr(schema_dict):
 
         args[key] = arg
 
-    return typeconstr(name=name, **args)
+    return typeconstr(**args)
 
 
 def parse_schema(stream_or_file: Union[str, IO]) -> List[Dataset]:
@@ -81,12 +87,6 @@ def parse_schema(stream_or_file: Union[str, IO]) -> List[Dataset]:
     else:
         schema = yaml.safe_load(stream_or_file)
 
-    if not isinstance(schema, list):
-        raise ValueError("Schema should be a list of `dataset` definitions")
+    objs = [parse_obj_constr(s) for s in schema]
 
-    datasets = [parse_obj_constr(s) for s in schema]
-
-    if not all(isinstance(d, Dataset) for d in datasets):
-        raise ValueError("Schema should be a list of `dataset` definitions")
-
-    return datasets
+    return objs

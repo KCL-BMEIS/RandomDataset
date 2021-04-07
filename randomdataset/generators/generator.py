@@ -38,13 +38,14 @@ class StreamDataGenerator(DataGenerator):
     def __init__(self, dataset: Dataset, num_lines: int, file_mode: str = "w"):
         super().__init__(dataset, num_lines)
         self.file_mode = file_mode
+        self.file_ext = ""
 
     def write_to_target(self, target: Any):
         if isinstance(target, str):
             path = Path(target)
 
             if path.is_dir():
-                target_file = str(path / f"{self.dataset.name}.csv")
+                target_file = str(path / f"{self.dataset.name}{self.file_ext}")
                 self.write_file(target_file)
             else:
                 self.write_file(target)
