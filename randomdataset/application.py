@@ -12,9 +12,14 @@ __all__ = ["generate_dataset"]
 @click.command()
 @click.argument("schema", type=click.File('r', lazy=True))
 @click.argument("output", type=click.Path(writable=True, resolve_path=True))
-@click.option("-n", "num_lines", default=10, type=int)
-@click.option("-g", "generator", default="randomdataset.generators.CSVGenerator", type=str)
+@click.option("-n", "num_lines", help="Number of lines to generate for each dataset", default=10, type=int,
+              show_default=True)
+@click.option("-g", "generator", help="Generator type name", default="randomdataset.generators.CSVGenerator", type=str,
+              show_default=True)
 def generate_dataset(schema, output, num_lines, generator):
+    """
+    This script generates a random dataset from a given YAML schema.
+    """
     print(f"Schema: '{schema}'")
     print(f"Output: '{output}'")
     print(f"Generating {num_lines} lines with '{generator}'")

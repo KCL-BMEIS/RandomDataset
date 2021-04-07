@@ -40,6 +40,11 @@ class ConstrSchemaFields(Enum):
 
 
 def parse_obj_constr(schema_dict):
+    """
+    Parse and construct an object from the given schema dictionary. The fields inf `ConstrSchemaFields` must be in this
+    dictionary, other fields become keyword arguments in the constructor.
+    """
+
     for f in ConstrSchemaFields:
         if f.value not in schema_dict:
             raise ValueError(f"Field `{f.value}` missing from schema, keys are {list(schema_dict)}")

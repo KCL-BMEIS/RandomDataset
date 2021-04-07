@@ -13,11 +13,10 @@ __all__ = ["CSVGenerator"]
 
 
 class CSVGenerator(StreamDataGenerator):
-    def __init__(self, dataset: Dataset, num_lines: int, write_header: bool = True, check_file_exists: bool = True,
-                 use_temp_dir: bool = True):
-        super().__init__(dataset, num_lines, check_file_exists, use_temp_dir)
+    def __init__(self, dataset: Dataset, num_lines: int, write_header: bool = True):
+        super().__init__(dataset, num_lines)
         self.write_header: bool = write_header
-        self.sep = ", "
+        self.sep = ","
 
     def _format_value(self, value, ftype) -> str:
         if ftype == FieldTypes.STRING:
@@ -32,7 +31,7 @@ class CSVGenerator(StreamDataGenerator):
 
         if self.write_header:
             line = self.dataset.field_names
-            line = _get_line(line, [FieldTypes.STRING] * len(line))
+            line = self.sep.join(line)  # _get_line(line, [FieldTypes.STRING] * len(line))
             stream.write(line + "\n")
 
         field_types = self.dataset.field_types

@@ -84,7 +84,7 @@ class SetFieldGen(FieldGen):
 
 
 class BoolFieldGen(FieldGen):
-    def __init__(self, name: str, as_string=True, rand_state: OptRandStateType = None):
+    def __init__(self, name: str, as_string=False, rand_state: OptRandStateType = None):
         super().__init__(name, FieldTypes.STRING if as_string else FieldTypes.BOOL, rand_state)
         self.as_string = as_string
 
