@@ -2,28 +2,27 @@
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
 import click
-from .fields import StrFieldGen, IntFieldGen, FloatFieldGen
-from .dataset import Dataset
-from .csvgenerator import CSVGenerator
 
-__all__ = ["simple_csv"]
+from .__init__ import __version__
+from .generators import DataGenerator
+from .schemaparser import parse_schema
+from .utils import find_type_def
 
-field_template = {
-    "name": StrFieldGen("Name", 6, 12),
-    "age": IntFieldGen("Age", 1, 90),
-    "height": IntFieldGen("Height", 50, 250),
-    "bmi": FloatFieldGen("BMI", 16, 32)
-}
+__all__ = ["generate_dataset"]
 
 
-@click.command()
-@click.argument("output", type=click.File('w'))
-@click.option("-f", "fields", multiple=True, nargs=1, type=str)
-@click.option("-n", "num_lines", default=10, type=int)
-def simple_csv(output, fields, num_lines):
-    chosen = [field_template[f] for f in fields]
-    ds = Dataset("ds", chosen)
+@click.command("generate_dataset")
+@click.argument("schema", type=click.File('r', lazy=True))
+@click.argument("output", type=click.Path(writable=True, resolve_path=True))
+@click.version_option(__version__, message="%(version)s")
+def generate_dataset(schema, output):
+    """
+    This script generates a random dataset from a given YAML schema.
+    """
+    print(f"Schema: '{schema}'")
+    print(f"Output: '{output}'")
 
-    csv = CSVGenerator(ds, num_lines)
-
-    csv.write_file(output)
+    generators = parse_schema(schema)
+    
+    for gen in generators:
+        gen.write_to_target(output)

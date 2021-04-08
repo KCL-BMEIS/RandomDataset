@@ -3,6 +3,7 @@
 
 import sys
 import unittest
+import tempfile
 from randomdataset import StrFieldGen, IntFieldGen, FloatFieldGen, Dataset, CSVGenerator
 
 
@@ -20,4 +21,5 @@ class TestCSVGenerator(unittest.TestCase):
     def test_write(self):
         gen = CSVGenerator(self.ds, 10)
 
-        gen.write_stream(sys.stdout)
+        with tempfile.TemporaryFile("w") as o:
+            gen.write_stream(o)

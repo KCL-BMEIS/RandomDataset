@@ -11,9 +11,12 @@ class Dataset:
         self.name = name
         self._fields = tuple(fields)
 
+        for f in self._fields:
+            f.parent = self
+
     @property
     def fields(self) -> Iterable[FieldGen]:
-        return tuple(self.fields)
+        return tuple(self._fields)
 
     @property
     def field_names(self) -> Tuple[str]:
@@ -43,3 +46,6 @@ class Dataset:
     def generate_field(self, name: str, length: Optional[int] = None):
         field = self.get_field(name)
         return field((length,)) if length is not None else field()
+
+    def __repr__(self):
+        return f"Dataset({self.name}, Fields: {[f.name for f in self.fields]})"

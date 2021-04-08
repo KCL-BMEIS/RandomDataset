@@ -1,0 +1,14 @@
+- name: testset
+  typename: randomdataset.Dataset
+  fields:
+  - name: Name
+    typename: randomdataset.StrFieldGen
+    lmin: 6
+    lmax: 14
+  - name: Age
+    typename: randomdataset.IntFieldGen
+    vmin: 18
+    vmax: 90
+  - name: is_employed
+    typename: randomdataset.BoolFieldGen
+
