@@ -17,7 +17,7 @@ with open(os.path.join(source_dir, "requirements.txt")) as o:
     requirements = [str(r) for r in parse_requirements(o.read())]
 
 setup(
-    name="RandomDataset",
+    name=__appname__,
     version=__version__,
     description=__description__,
     author=__author__,
