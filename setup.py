@@ -1,15 +1,28 @@
 # RandomDataset
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
+import os
 from setuptools import setup, find_packages
+from pkg_resources import parse_requirements
+
+
+source_dir = os.path.abspath(os.path.dirname(__file__))
+
+# read the version and other strings from _version.py
+with open(os.path.join(source_dir, "randomdataset/_version.py")) as o:
+    exec(o.read())
+
+# read install requirements from requirements.txt
+with open(os.path.join(source_dir, "requirements.txt")) as o:
+    requirements = [str(r) for r in parse_requirements(o.read())]
 
 setup(
     name="RandomDataset",
-    version="0.0.1",
-    description="Random dataset generation tool",
-    author="Eric Kerfoot",
-    author_email="eric.kerfoot@kcl.ac.uk",
+    version=__version__,
+    description=__description__,
+    author=__author__,
+    author_email=__author_email__,
     packages=find_packages(),
-    install_requires=["numpy", "pandas", "click", "pyyaml"],
+    install_requires=requirements,
     entry_points={"console_scripts": ["generate_dataset = randomdataset:generate_dataset"]},
 )
