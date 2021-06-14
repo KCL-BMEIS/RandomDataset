@@ -30,7 +30,7 @@ import yaml
 from .dataset import Dataset
 from .utils import find_type_def
 
-__all__ = ["parse_schema","ConstrSchemaFields"]
+__all__ = ["parse_schema", "ConstrSchemaFields"]
 
 DATASET_ELEM = "dataset"
 
@@ -54,11 +54,11 @@ def parse_obj_constr(schema_dict):
 
     typename = schema_dict.pop(ConstrSchemaFields.TYPENAME.value)
     typeconstr = find_type_def(typename)
-    
-    sig=signature(typeconstr)
-    
-    missing_params=[k for k,v in sig.parameters.items() if k not in schema_dict and v.default is _empty]
-    
+
+    sig = signature(typeconstr)
+
+    missing_params = [k for k, v in sig.parameters.items() if k not in schema_dict and v.default is _empty]
+
     if missing_params:
         raise ValueError(f"Missing values for these parameters of type '{typename}': {','.join(missing_params)}")
 
