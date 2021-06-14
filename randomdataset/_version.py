@@ -2,7 +2,7 @@
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
 __appname__ = "RandomDataset"
-__version_info__ = (0, 1, 2)  # global application version, major/minor/patch
+__version_info__ = (0, 1, 3)  # global application version, major/minor/patch
 __version__ = "%i.%i.%i" % __version_info__
 __description__ = "Random dataset generation tool"
 __author__ = "Eric Kerfoot, KCL"
