@@ -8,7 +8,7 @@ __description__ = "Random dataset generation tool"
 __author__ = "Eric Kerfoot, KCL"
 __author_email__ = "eric.kerfoot@kcl.ac.uk"
 __copyright__ = "Copyright (c) 2021 Eric Kerfoot, King's College London, all rights reserved. Licensed under MIT License (see LICENSE.txt)."
-__url__ = "https://github.com/ericspod/RandomDataset"
+__url__ = "https://github.com/KCL-BMEIS/RandomDataset"
 __license__ = "MIT"
 __long_description__ = """
 RandomDataset is a tool for generating randomized tabular data for testing databases, import routines, algorithms, etc.
