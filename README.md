@@ -74,13 +74,27 @@ A relatively simple set of features which link into the code are set up on this 
 Both ReadTheDocs and Codecov are integrated with the repo as webhooks. These can be setup through their respective sites
 which require Github credentials to link with repos.
 
-This repo mostly follows [GitFlow](http://datasift.github.io/gitflow/IntroducingGitFlow.html) with a `master` branch which is always
-the current release of the code, and a `dev` branch that is the development version of the code. 
-Branch protection rules are in place for `master` which ensure that code can only be committed to the branch through reviewed PRs:
+This repo mostly follows [GitFlow](http://datasift.github.io/gitflow/IntroducingGitFlow.html) with a `master` branch 
+which is always the current release of the code, and a `dev` branch that is the development version of the code. 
+Branch protection rules are in place for `master` which ensure that code can only be committed to the branch through 
+reviewed PRs:
 
 * Require pull request reviews before merging
 * Require status checks to pass before merging ("build" action selected)
 * Require branches to be up to date before merging 
 * Require linear history 
 * Include administrators
+
+## PyPI Release
+
+Whenever a new release is made this is uploaded automatically to PyPI using the default Github workflow "Publish Python 
+Package". To upload to PyPI [these steps](https://packaging.python.org/tutorials/packaging-projects/) explain the 
+process. For this repo the basic steps are:
+
+1. Create account on pypi.org
+2. Create a wheel file with `python setup.py bdist_wheel`, this creates `dist/RandomDataset-0.1.0-py3-none-any.whl`
+3. Upload this package manually to PyPI with `python -m twine upload dist/*` (assuming you have twine already installed)
+4. Get the API token for the new package and set it to the secret `PYPI_API_TOKEN` in the repository's settings
+5. Add the workflow file `.github/workflows/python-publish.yml` from [here](https://github.com/actions/starter-workflows/blob/main/ci/python-publish.yml).
+6. Commit changes and create a release for the project, this should upload to PyPI automatically
 
