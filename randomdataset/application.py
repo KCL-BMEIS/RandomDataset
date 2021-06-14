@@ -11,7 +11,7 @@ from .generators import DataGenerator
 from .schemaparser import parse_schema
 from .utils import find_type_def
 
-__all__ = ["generate_dataset","print_test"]
+__all__ = ["generate_dataset", "print_test"]
 
 
 @click.command("generate_dataset")

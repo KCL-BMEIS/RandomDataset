@@ -4,4 +4,5 @@
 
 if __name__ == "__main__":
     from .application import generate_dataset
+
     generate_dataset()

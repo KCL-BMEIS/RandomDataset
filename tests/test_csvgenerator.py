@@ -1,7 +1,6 @@
 # RandomDataset
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
-import sys
 import unittest
 import tempfile
 from randomdataset import StrFieldGen, IntFieldGen, FloatFieldGen, Dataset, CSVGenerator
