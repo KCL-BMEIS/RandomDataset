@@ -5,10 +5,13 @@ import os
 from setuptools import setup, find_packages
 from pkg_resources import parse_requirements
 
+# It's important to note that this file doesn't import randomdataset to get the version information, but interprets
+# the _version.py file instead. This prevents the situation when installing using this file without all the depenencies
+# already present, this file won't be runnable in this case. 
 
 source_dir = os.path.abspath(os.path.dirname(__file__))
 
-# read the version and other strings from _version.py
+# read the version and other data from _version.py
 with open(os.path.join(source_dir, "randomdataset/_version.py")) as o:
     exec(o.read())
 
@@ -20,8 +23,11 @@ setup(
     name=__appname__,
     version=__version__,
     description=__description__,
+    long_description=__long_description__,
     author=__author__,
     author_email=__author_email__,
+    url=__url__,
+    license=__license__,
     packages=find_packages(),
     install_requires=requirements,
     entry_points={"console_scripts": ["generate_dataset = randomdataset:generate_dataset"]},
