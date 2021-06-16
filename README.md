@@ -1,8 +1,8 @@
 # RandomDataset
 
 [![Documentation Status](https://readthedocs.org/projects/randomdataset/badge/?version=latest)](https://randomdataset.readthedocs.io/en/latest/?badge=latest)
-[![Testing](https://github.com/ericspod/RandomDataset/workflows/Unittests/badge.svg)](https://github.com/ericspod/RandomDataset/actions)
-[![codecov](https://codecov.io/gh/ericspod/RandomDataset/branch/master/graph/badge.svg)](https://codecov.io/gh/ericspod/RandomDataset)
+[![Testing](https://github.com/KCL-BMEIS/RandomDataset/workflows/Unittests/badge.svg)](https://github.com/KCL-BMEIS/RandomDataset/actions)
+[![codecov](https://codecov.io/gh/KCL-BMEIS/RandomDataset/branch/master/graph/badge.svg)](https://codecov.io/gh/KCL-BMEIS/RandomDataset)
 
 Generates random datasets for testing and fun.
 
