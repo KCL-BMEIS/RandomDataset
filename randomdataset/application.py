@@ -7,7 +7,7 @@ from tempfile import TemporaryDirectory
 
 import click
 
-from .__init__ import __version__
+from ._version import __version__
 from .generators import DataGenerator
 from .schemaparser import parse_schema
 
