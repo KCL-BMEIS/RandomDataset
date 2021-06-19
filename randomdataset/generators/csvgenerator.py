@@ -6,18 +6,17 @@ from itertools import islice, starmap
 from typing import IO
 
 from ..dataset import Dataset
-from .generator import StreamDataGenerator
+from .generator import DataGenerator
 from ..fields import FieldTypes
 
 __all__ = ["CSVGenerator"]
 
 
-class CSVGenerator(StreamDataGenerator):
+class CSVGenerator(DataGenerator):
     def __init__(self, dataset: Dataset, num_lines: int, write_header: bool = True):
-        super().__init__(dataset, num_lines)
+        super().__init__(dataset, num_lines, file_ext=".csv")
         self.write_header: bool = write_header
         self.sep = ","
-        self.file_ext = ".csv"
 
     def _format_value(self, value, ftype) -> str:
         if ftype == FieldTypes.STRING:
@@ -29,11 +28,11 @@ class CSVGenerator(StreamDataGenerator):
         field_types = self.dataset.field_types
 
         if self.write_header:
-            line = self.dataset.field_names
-            line = self.sep.join(line)  # _get_line(line, [FieldTypes.STRING] * len(line))
+            line = self.get_header()
+            line = self.sep.join(line)
             stream.write(line + "\n")
 
-        for line in islice(self.generate_rows(), self.num_lines):
+        for line in self.generate_rows():
             line_values = starmap(self._format_value, zip(line, field_types))
             line_values = self.sep.join(line_values)
             stream.write(line_values + "\n")

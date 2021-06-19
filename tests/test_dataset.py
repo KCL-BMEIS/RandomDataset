@@ -12,7 +12,7 @@ class TestDataset(unittest.TestCase):
         field = StrFieldGen("field", 8, 9)
         ds = Dataset("TestDS", [field])
 
-        row = ds.generate_row()
+        row = ds.get_row_data()
 
         self.assertEqual(len(row), 1)
         self.assertIsInstance(row, tuple)
@@ -23,7 +23,7 @@ class TestDataset(unittest.TestCase):
         field2 = IntFieldGen("field2", 0, 10)
         ds = Dataset("TestDS", [field1, field2])
 
-        row = ds.generate_row()
+        row = ds.get_row_data()
 
         self.assertEqual(len(row), 2)
         self.assertIsInstance(row, tuple)
@@ -34,7 +34,7 @@ class TestDataset(unittest.TestCase):
         field = IntFieldGen("field", 0, 10)
         ds = Dataset("TestDS", [field])
 
-        col = ds.generate_field("field", 10)
+        col = ds.get_field_data("field", 10)
 
         self.assertEqual(len(col), 10)
         self.assertIsInstance(col, np.ndarray)

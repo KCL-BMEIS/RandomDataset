@@ -22,12 +22,12 @@ argument to pass to the constructor. For example, to create a single dataset ite
         typename: randomdataset.BoolFieldGen
 """
 
-from typing import Union, IO, List
+from typing import Union, IO, List, Dict
 from enum import Enum
-from inspect import signature, _empty
+from inspect import signature, Signature
 import yaml
 
-from .dataset import Dataset
+from .generators import DataGenerator
 from .utils import find_type_def
 
 __all__ = ["parse_schema", "ConstrSchemaFields"]
@@ -40,7 +40,7 @@ class ConstrSchemaFields(Enum):
     NAME = "name"
 
 
-def parse_obj_constr(schema_dict):
+def parse_obj_constr(schema_dict: Dict[str, Union[dict, list, tuple]]):
     """
     Parse and construct an object from the given schema dictionary. The field `ConstrSchemaFields.TYPENAME` must be in
     this dictionary, which is keyed to the fully-qualified name of the type to construct. Other fields become keyword 
@@ -57,7 +57,7 @@ def parse_obj_constr(schema_dict):
 
     sig = signature(typeconstr)
 
-    missing_params = [k for k, v in sig.parameters.items() if k not in schema_dict and v.default is _empty]
+    missing_params = [k for k, v in sig.parameters.items() if k not in schema_dict and v.default is Signature.empty]
 
     if missing_params:
         raise ValueError(f"Missing values for these parameters of type '{typename}': {','.join(missing_params)}")
@@ -77,7 +77,7 @@ def parse_obj_constr(schema_dict):
     return typeconstr(**args)
 
 
-def parse_schema(stream_or_file: Union[str, IO]) -> List[Dataset]:
+def parse_schema(stream_or_file: Union[str, IO]) -> List[DataGenerator]:
     """
     Parse the given file or stream and return the list of Dataset objects it specifies.
     """
