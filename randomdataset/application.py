@@ -2,6 +2,7 @@
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
 import os
+from typing import List
 from tempfile import TemporaryDirectory
 
 import click
@@ -9,7 +10,6 @@ import click
 from .__init__ import __version__
 from .generators import DataGenerator
 from .schemaparser import parse_schema
-from .utils import find_type_def
 
 __all__ = ["generate_dataset", "print_test"]
 
@@ -20,12 +20,13 @@ __all__ = ["generate_dataset", "print_test"]
 @click.version_option(__version__, message="%(version)s")
 def generate_dataset(schema, output):
     """
-    This script generates a random dataset from a given YAML schema.
+    This script generates a random dataset from a given YAML schema. SCHEMA is the input YAML schema file describing the
+    fields and length of the dataset to generate. OUTPUT is the output file or directory to store the dataset.
     """
-    print(f"Schema: '{schema}'")
-    print(f"Output: '{output}'")
+    click.echo(f"Schema: '{schema}'")
+    click.echo(f"Output: '{output}'")
 
-    generators = parse_schema(schema)
+    generators: List[DataGenerator] = parse_schema(schema)
 
     for gen in generators:
         gen.write_to_target(output)
