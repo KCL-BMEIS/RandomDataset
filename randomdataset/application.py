@@ -29,6 +29,7 @@ def generate_dataset(schema, output):
     generators: List[DataGenerator] = parse_schema(schema)
 
     for gen in generators:
+        print(f"Generating dataset '{gen.dataset.name}'")
         gen.write_to_target(output)
 
 

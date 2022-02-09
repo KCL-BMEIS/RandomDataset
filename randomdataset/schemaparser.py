@@ -44,7 +44,20 @@ def parse_obj_constr(schema_dict: Dict[str, Union[dict, list, tuple]]):
     """
     Parse and construct an object from the given schema dictionary. The field `ConstrSchemaFields.TYPENAME` must be in
     this dictionary, which is keyed to the fully-qualified name of the type to construct. Other fields become keyword 
-    arguments in the constructor call.
+    arguments in the constructor call. The provided schema must have a key "name" containing the name of the object
+    to create (which will be passed as a constructor argument of the same name), a key "typename" giving the fully
+    qualified type name of the object to create, and then whatever other constructor arguments are to follow. For 
+    example, a class can be instantiated from the "__main__" module as such:
+    
+        class CreateTest:
+            def __init__(self, name, a, b):
+                self.name = name
+                self.a = a
+                self.b = b
+
+        create_dict = {"name": "test", "typename": "__main__.CreateTest", "a": 1, "b": "two"}
+        test = randomdataset.schemaparser.parse_obj_constr(create_dict)
+        print(test.name, test.a, test.b)  # prints "name 1 two"
     """
 
     if ConstrSchemaFields.TYPENAME.value not in schema_dict:
