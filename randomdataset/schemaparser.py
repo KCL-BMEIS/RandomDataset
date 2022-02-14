@@ -7,6 +7,7 @@ place they are used and other values as literals. The top level list must be for
 dictionary must have a `typename` member stating the fully-qualified name for the type to instantiate, and a `name`
 argument to pass to the constructor. For example, to create a single dataset item with a few random fields:
 
+Example:
     - name: testset
       typename: randomdataset.Dataset
       fields:
@@ -30,7 +31,7 @@ import yaml
 from .generators import DataGenerator
 from .utils import find_type_def
 
-__all__ = ["parse_schema", "ConstrSchemaFields"]
+__all__ = ["parse_schema", "ConstrSchemaFields", "parse_obj_constr"]
 
 DATASET_ELEM = "dataset"
 
@@ -47,8 +48,9 @@ def parse_obj_constr(schema_dict: Dict[str, Union[dict, list, tuple]]):
     arguments in the constructor call. The provided schema must have a key "name" containing the name of the object
     to create (which will be passed as a constructor argument of the same name), a key "typename" giving the fully
     qualified type name of the object to create, and then whatever other constructor arguments are to follow. For 
-    example, a class can be instantiated from the "__main__" module as such:
+    example, a class can be instantiated from the "__main__" module.
     
+    Example:
         class CreateTest:
             def __init__(self, name, a, b):
                 self.name = name
@@ -73,7 +75,7 @@ def parse_obj_constr(schema_dict: Dict[str, Union[dict, list, tuple]]):
     missing_params = [k for k, v in sig.parameters.items() if k not in schema_dict and v.default is Signature.empty]
 
     if missing_params:
-        raise ValueError(f"Missing values for these parameters of type '{typename}': {','.join(missing_params)}")
+        raise ValueError(f"Missing values for these parameters of type '{typename}': {', '.join(missing_params)}")
 
     args = {}
 

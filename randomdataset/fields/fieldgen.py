@@ -11,10 +11,11 @@ __all__ = ["FieldTypes", "FieldGen", "OptRandStateType", "OptShapeType"]
 
 class FieldTypes(Enum):
     """Data types produced by FieldGen objects."""
-    STRING = str
-    INTEGER = int
-    FLOAT = float
-    BOOL = bool
+    STRING = "string", str
+    INTEGER = "int", int
+    FLOAT = "float", float
+    BOOL = "bool", bool
+    STRDATETIME = "datetime", str
 
 
 OptShapeType = Optional[Tuple[int, ...]]
