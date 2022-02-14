@@ -80,7 +80,7 @@ class AlphaNameGen(FieldGen):
         "Ned", "Olivia", "Peggy", "Quin", "Rupert", "Sybil", "Trudy", "Uriel", "Victor", "Wendy", "Xavier", "Yan", "Zoe"
     ]
     
-    last_names = ["Random", "None", "Null", "Blargs", "Bloggs", "Bar", "Thunk", "Nobody", "Nemo"]
+    last_names = ["Anon", "Random", "None", "Null", "Blargs", "Bloggs", "Bar", "Thunk", "Nobody", "Nemo", "Unknown"]
     
     def __init__(self, name: str, is_first_name=True, rand_state: OptRandStateType = None, shared_state_name=None):
         super().__init__(name, FieldTypes.STRING, rand_state, shared_state_name)
@@ -122,11 +122,13 @@ class DateTimeFieldGen(FieldGen):
         as_string: bool = False,
         rand_state: OptRandStateType = None,
         ftimeformat: Optional[str] = None,
+        timezone: Optional[datetime.timezone] = datetime.timezone.utc,
         shared_state_name=None,
     ):
-        super().__init__(name, FieldTypes.STRING if as_string else FieldTypes.BOOL, rand_state, shared_state_name)
+        super().__init__(name, FieldTypes.STRDATETIME if as_string else FieldTypes.FLOAT, rand_state, shared_state_name)
         self.as_string = as_string
         self.ftimeformat = ftimeformat
+        self.timezone = timezone
 
         if start_time is None:
             self.start_time = (datetime.datetime.now() - datetime.timedelta(days=365)).timestamp()
@@ -140,6 +142,8 @@ class DateTimeFieldGen(FieldGen):
 
     def _format(self, timestamp):
         dt = datetime.datetime.fromtimestamp(timestamp)
+        if self.timezone is not None:
+            dt = dt.astimezone(self.timezone)
 
         if self.ftimeformat is not None:
             return dt.strftime(self.ftimeformat)
