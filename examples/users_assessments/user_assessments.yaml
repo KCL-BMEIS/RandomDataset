@@ -1,0 +1,68 @@
+
+- typename: randomdataset.generators.CSVGenerator
+  num_lines: 10
+  dataset:
+    name: users
+    typename: randomdataset.Dataset
+    fields:
+    - name: id
+      typename: randomdataset.UIDFieldGen
+      shared_state_name: user_ids
+    - name: FirstName
+      typename: randomdataset.AlphaNameGen
+    - name: LastName
+      typename: randomdataset.AlphaNameGen
+      is_first_name: False
+    - name: bmi
+      typename: randomdataset.IntFieldGen
+      vmin: 20
+      vmax: 40
+    - name: has_diabetes
+      typename: randomdataset.IntFieldGen
+      vmin: 0
+      vmax: 2
+    - name: height_cm
+      typename: randomdataset.IntFieldGen
+      vmin: 100
+      vmax: 200
+    - name: year_of_birth
+      typename: randomdataset.IntFieldGen
+      vmin: 1920
+      vmax: 2010
+    
+- typename: randomdataset.generators.CSVGenerator
+  num_lines: 30
+  dataset:
+    name: assessments
+    typename: randomdataset.Dataset
+    fields:
+    - name: id
+      typename: randomdataset.UIDFieldGen
+    - name: date
+      typename: randomdataset.DateTimeFieldGen
+      as_string: True
+    - name: user_id
+      typename: randomdataset.SharedDataGen
+      source_state_name: user_ids
+      field_type: int
+    - name: abdominal_pain
+      typename: randomdataset.IntFieldGen
+      vmin: 0
+      vmax: 2
+    - name: brain_fog
+      typename: randomdataset.IntFieldGen
+      vmin: 0
+      vmax: 2
+    - name: loss_of_smell
+      typename: randomdataset.IntFieldGen
+      vmin: 0
+      vmax: 2
+    - name: tested_covid_positive
+      typename: randomdataset.IntFieldGen
+      vmin: 0
+      vmax: 3
+    - name: temperature_f
+      typename: randomdataset.FloatFieldGen
+      vmin: 95
+      vmax: 110
+    
