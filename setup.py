@@ -16,9 +16,11 @@ with open(os.path.join(source_dir, "randomdataset/_version.py")) as o:
     exec(o.read())
 
 # read install requirements from requirements.txt
-with open(os.path.join(source_dir, "requirements.txt")) as o:
-    requirements = [str(r) for r in parse_requirements(o.read())]
+#with open(os.path.join(source_dir, "requirements.txt")) as o:
+#    requirements = [str(r) for r in parse_requirements(o.read())]
 
+requirements = ['numpy>=1.18', 'pandas', 'click', 'pyyaml']
+    
 setup(
     name=__appname__,
     version=__version__,
