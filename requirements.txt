@@ -1,4 +1,0 @@
-numpy>=1.18
-pandas
-click
-pyyaml
