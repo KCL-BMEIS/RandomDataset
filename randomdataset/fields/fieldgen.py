@@ -63,7 +63,7 @@ class FieldGen(ABC):
         
     @property
     def shared_state_name(self):
-        return _shared_state_name
+        return self._shared_state_name
     
     def append_shared_state(self, data):
         if self._parent is not None and self._shared_state_name is not None:

@@ -1,0 +1,31 @@
+# RandomDataset
+# Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "randomdataset"
+description = "Random dataset generation tool"
+dependencies = ["numpy>=1.18", "click", "pyyaml", "pandas"]
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [{ name = "Eric Kerfoot", email = "eric.kerfoot@kcl.ac.uk" }]
+dynamic = ["version", "readme"]
+
+[project.urls]
+homepage = "https://github.com/KCL-BMEIS/RandomDataset"
+
+[project.scripts]
+generate_dataset = "randomdataset:generate_dataset"
+
+[tool.setuptools.packages.find]
+include = ["randomdataset*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "randomdataset._version.__version__"}
+readme = {file = ["README.md"], content-type = "text/markdown"}
+
+[metadata]
+description-file = "README.md"
