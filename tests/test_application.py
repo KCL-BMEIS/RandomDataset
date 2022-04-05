@@ -8,7 +8,7 @@ from contextlib import redirect_stdout
 
 import unittest
 
-from randomdataset import generate_dataset, print_test
+from randomdataset import generate_dataset, print_csv_test
 
 schema = """
 - typename: randomdataset.generators.CSVGenerator
@@ -49,6 +49,6 @@ class TestApplication(unittest.TestCase):
     def test_print_test(self):
         tmp_out = StringIO()
         with redirect_stdout(tmp_out):
-            print_test()
+            print_csv_test()
 
         self.assertGreater(tmp_out.tell(), 0)
