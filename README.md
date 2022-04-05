@@ -9,11 +9,7 @@ Generates random datasets for testing and fun.
 This repository contains a simple library for generating random tabular datasets of virtually any size. It also serves
 as an example repository for a Python code base with basic CI/CD integration and tools. 
 
-Install this library from a git clone:
-
-```bash
-$ pip install .
-```
+Install this library with `pip install randomdataset` or from a git clone with `pip install .`.
 
 Data is generated from a YAML schema describing the names of tables/datasets and the fields they have. The YAML file
 consists of a sequence of dictionaries used to instantiate objects from the library or from other libraries present
@@ -74,27 +70,37 @@ A relatively simple set of features which link into the code are set up on this 
 Both ReadTheDocs and Codecov are integrated with the repo as webhooks. These can be setup through their respective sites
 which require Github credentials to link with repos.
 
-This repo mostly follows [GitFlow](http://datasift.github.io/gitflow/IntroducingGitFlow.html) with a `master` branch 
+This repo mostly follows [GitFlow](https://nvie.com/posts/a-successful-git-branching-model) with a `main` (`master`) branch 
 which is always the current release of the code, and a `dev` branch that is the development version of the code. 
-Branch protection rules are in place for `master` which ensure that code can only be committed to the branch through 
+Branch protection rules are in place for `main` which ensure that code can only be committed to the branch through 
 reviewed PRs:
 
-* Require pull request reviews before merging
+* Require pull request reviews before merging, and require approvals before allowing merging
 * Require status checks to pass before merging ("build" action selected)
 * Require branches to be up to date before merging 
-* Require linear history 
+* Require conversation resolution before merging 
 * Include administrators
+
+The rule for `dev` should include all these requirements as well as requiring a linear history. This ensures that the history
+for this branch is kept minimal by not allowing direct merging from other branches but forcing squash and merge or rebase and merge.
+Changes from feature or fix branches get compressed into single commits with this requirement, the consequence is that the branches
+being merged from cannot be synchronised with the target branch. This is fine for feature/fix branches which are deleted after
+being merged into `dev`, however `dev` should be merged into `main` and not deleted so must be synchronised with `main`. This means
+`main` cannot have a linear history, but only merges from `dev` or hotfix branches should be allowed so it's history will remain
+relatively clean regardless. 
 
 ## PyPI Release
 
-Whenever a new release is made this is uploaded automatically to PyPI using the default Github workflow "Publish Python 
-Package". To upload to PyPI [these steps](https://packaging.python.org/tutorials/packaging-projects/) explain the 
-process. For this repo the basic steps are:
+Whenever a new release is made this is uploaded automatically to PyPI using an action derived from the Github workflow "Publish Python 
+Package". Before this can be used in a new repo a manual upload to PyPI must be done of the first package. 
+To upload to PyPI you can follow [these steps](https://packaging.python.org/tutorials/packaging-projects/) which explain the 
+process. For this repo the basic manual steps were:
 
 1. Create account on pypi.org
-2. Create a wheel file with `python setup.py bdist_wheel`, this creates `dist/RandomDataset-0.1.0-py3-none-any.whl`
-3. Upload this package manually to PyPI with `python -m twine upload dist/*` (assuming you have twine already installed)
-4. Get the API token for the new package and set it to the secret `PYPI_API_TOKEN` in the repository's settings
-5. Add the workflow file `.github/workflows/python-publish.yml` from [here](https://github.com/actions/starter-workflows/blob/main/ci/python-publish.yml).
-6. Commit changes and create a release for the project, this should upload to PyPI automatically
+2. Install `build` and `twine` with `pip install build twine`
+3. Create a wheel file with `python -m build`, this creates `dist/RandomDataset-X.X.X-py3-none-any.whl` 
+4. Upload this package manually to PyPI with `python -m twine upload dist/*`
+5. Get the API token for the new package and set it to the secret `PYPI_API_TOKEN` in the repository's settings
+6. Add the workflow file `.github/workflows/python-publish.yml` derived from [here](https://github.com/actions/starter-workflows/blob/main/ci/python-publish.yml).
+7. Commit changes and create a release for the project using the uploaded version as the tag and release name, this should upload to PyPI automatically
 
