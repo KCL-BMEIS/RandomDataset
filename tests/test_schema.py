@@ -77,4 +77,4 @@ class TestSchema(unittest.TestCase):
         s.seek(0)
 
         with self.assertRaises(ValueError):
-            ds = parse_schema(s)
+            _ = parse_schema(s)

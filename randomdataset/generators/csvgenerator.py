@@ -2,7 +2,7 @@
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
 import json
-from itertools import islice, starmap
+from itertools import starmap
 from typing import IO
 
 from ..dataset import Dataset
