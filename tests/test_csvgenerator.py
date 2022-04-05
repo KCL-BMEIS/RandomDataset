@@ -12,7 +12,7 @@ class TestCSVGenerator(unittest.TestCase):
             StrFieldGen("Name", 6, 12),
             IntFieldGen("Age", 1, 90),
             IntFieldGen("Height", 50, 250),
-            FloatFieldGen("BMI", 16, 32)
+            FloatFieldGen("BMI", 16, 32),
         ]
 
         self.ds = Dataset("Humans", self.fields)

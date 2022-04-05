@@ -44,12 +44,12 @@ class ConstrSchemaFields(Enum):
 def parse_obj_constr(schema_dict: Dict[str, Union[dict, list, tuple]]):
     """
     Parse and construct an object from the given schema dictionary. The field `ConstrSchemaFields.TYPENAME` must be in
-    this dictionary, which is keyed to the fully-qualified name of the type to construct. Other fields become keyword 
+    this dictionary, which is keyed to the fully-qualified name of the type to construct. Other fields become keyword
     arguments in the constructor call. The provided schema must have a key "name" containing the name of the object
     to create (which will be passed as a constructor argument of the same name), a key "typename" giving the fully
-    qualified type name of the object to create, and then whatever other constructor arguments are to follow. For 
+    qualified type name of the object to create, and then whatever other constructor arguments are to follow. For
     example, a class can be instantiated from the "__main__" module.
-    
+
     Example:
         class CreateTest:
             def __init__(self, name, a, b):

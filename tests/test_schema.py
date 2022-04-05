@@ -49,7 +49,7 @@ class TestSchema(unittest.TestCase):
 
     def test_simple_schema_file(self):
         with tempfile.TemporaryDirectory() as t:
-            filename = os.path.join(t, 'schema.yaml')
+            filename = os.path.join(t, "schema.yaml")
 
             with open(filename, "w") as o:
                 o.write(ex1)

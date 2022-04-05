@@ -15,7 +15,7 @@ __all__ = ["generate_dataset", "print_csv_test"]
 
 
 @click.command("generate_dataset")
-@click.argument("schema", type=click.File('r', lazy=True))
+@click.argument("schema", type=click.File("r", lazy=True))
 @click.argument("output", type=click.Path(writable=True, resolve_path=True))
 @click.version_option(__version__, message="%(version)s")
 def generate_dataset(schema, output):
@@ -23,7 +23,7 @@ def generate_dataset(schema, output):
     This script generates a random dataset from a given YAML schema. SCHEMA is the input YAML schema file describing the
     fields and length of the dataset to generate. OUTPUT is the output file or directory to store the dataset.
     """
-    
+
     click.echo(f"Schema: '{schema}'")
     click.echo(f"Output: '{output}'")
 
