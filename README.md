@@ -79,15 +79,13 @@ reviewed PRs:
 * Require status checks to pass before merging ("build" action selected)
 * Require branches to be up to date before merging 
 * Require conversation resolution before merging 
-* Include administrators
+* Require linear history
 
-The rule for `dev` should include all these requirements as well as requiring a linear history. This ensures that the history
-for this branch is kept minimal by not allowing direct merging from other branches but forcing squash and merge or rebase and merge.
-Changes from feature or fix branches get compressed into single commits with this requirement, the consequence is that the branches
-being merged from cannot be synchronised with the target branch. This is fine for feature/fix branches which are deleted after
-being merged into `dev`, however `dev` should be merged into `main` and not deleted so must be synchronised with `main`. This means
-`main` cannot have a linear history, but only merges from `dev` or hotfix branches should be allowed so it's history will remain
-relatively clean regardless. 
+The rule for `dev` should include all these requirements as well. Both rules should not include administrators who would be responsible
+for merging `dev` into `main` when releases are done. The requirement for linear history prevents merging so any PR from `dev` to `main`
+would have to be done as a new commit, in which case `dev` will remain ahead of `main` but also behind by 1. Instead administators can
+merge `dev` into `main` or rebase, regular contributors cannot and so maintain the relatively clear commit history of both branches.
+Merging feature or fix branches into `dev` will leave them ahead of `dev` but since these are throwaway this isn't an issue. 
 
 ## PyPI Release
 

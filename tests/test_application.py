@@ -33,8 +33,8 @@ schema = """
 class TestApplication(unittest.TestCase):
     def test_generate_dataset(self):
         with TemporaryDirectory() as d:
-            schema_file = os.path.join(d, 'schema.yml')
-            out_file = os.path.join(d, 'out.csv')
+            schema_file = os.path.join(d, "schema.yml")
+            out_file = os.path.join(d, "out.csv")
 
             with open(schema_file, "w") as o:
                 o.write(schema)

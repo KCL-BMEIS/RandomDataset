@@ -15,26 +15,25 @@ def find_type_def(qualified_name: str):
 
 
 class FlatIterator:
-    def __init__(self,data):
-        self.data=data
-        self.indices=[]
-        
+    def __init__(self, data):
+        self.data = data
+        self.indices = []
+
         for i, item in enumerate(data):
-            if isinstance(item,(list,tuple)):
-                self.indices+=[(i,j) for j in range(len(item))]
+            if isinstance(item, (list, tuple)):
+                self.indices += [(i, j) for j in range(len(item))]
             else:
-                self.indices.append((i,None))
-                
+                self.indices.append((i, None))
+
     def __len__(self):
         return len(self.indices)
-    
+
     def __getitem__(self, item):
-        idx,subidx = self.indices[item]
+        idx, subidx = self.indices[item]
         if subidx is None:
             return self.data[idx]
         else:
             return self.data[idx][subidx]
-                
+
     def __iter__(self):
         yield from (self[i] for i in range(len(self)))
-                
