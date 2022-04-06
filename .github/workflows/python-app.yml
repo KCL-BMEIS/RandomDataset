@@ -45,7 +45,7 @@ jobs:
     # Run the unit tests using the coverage program and create the XML output file
     - name: Test with unittest
       run: |
-        ./runtests.py --coverage
+        ./runtests.sh --coverage
     # Using Codecov's action, upload the coverage report for the triggering commit/PR
     - name: Upload coverage
       uses: codecov/codecov-action@v1
