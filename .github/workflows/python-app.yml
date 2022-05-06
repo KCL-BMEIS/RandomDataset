@@ -3,7 +3,7 @@
 
 # This file will define what the workflow consists of, that is what operations we want to perform and when. The first 
 # part names the action, the second states when the action is triggered (on push or on pull request) and on what 
-# branches (master and dev in our case).
+# branches (main and dev in our case).
 
 name: Unittests
 
@@ -17,7 +17,7 @@ on:
 jobs:
   build:
 
-    runs-on: [self-hosted]  # run in Ubuntu VM, so assuming a Unix-like environment for our commands
+    runs-on: [ubuntu-latest, self-hosted]  # run in Ubuntu VM, so assuming a Unix-like environment for our commands
 
     steps:
     # first step checks out the code into 
