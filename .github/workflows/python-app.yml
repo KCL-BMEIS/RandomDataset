@@ -17,7 +17,7 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted  # run in Ubuntu VM, so assuming a Unix-like environment for our commands
+    runs-on: [self-hosted]  # run in Ubuntu VM, so assuming a Unix-like environment for our commands
 
     steps:
     # first step checks out the code into 
