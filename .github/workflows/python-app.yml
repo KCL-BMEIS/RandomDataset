@@ -9,9 +9,9 @@ name: Unittests
 
 on:
   push:
-    branches: [ master, dev ]  # run when anything is pushed to these branches
+    branches: [ main, dev ]  # run when anything is pushed to these branches
   pull_request:
-    branches: [ master, dev ]  # run for the code submitted as a PR to these branches
+    branches: [ main, dev ]  # run for the code submitted as a PR to these branches
 
 # jobs are a series of steps which run commands in the chosen virtualized environment to perform some action
 jobs:
