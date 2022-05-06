@@ -17,7 +17,12 @@ on:
 jobs:
   build:
 
-    runs-on: [ubuntu-latest, self-hosted]  # run in Ubuntu VM, so assuming a Unix-like environment for our commands
+    #runs-on: [ubuntu-latest, self-hosted]  # run in Ubuntu VM, so assuming a Unix-like environment for our commands
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [self-hosted, ubuntu-latest]
 
     steps:
     # first step checks out the code into 
