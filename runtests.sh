@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# Runs unit tests optionally with coverage and reporting or HTML output.
+
 do_coverage=false
 do_report=false
 do_html=false
