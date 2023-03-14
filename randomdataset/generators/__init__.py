@@ -3,3 +3,4 @@
 
 from .generator import *
 from .csvgenerator import *
+from .jsongenerator import *
