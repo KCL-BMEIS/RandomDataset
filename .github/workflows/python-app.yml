@@ -24,28 +24,28 @@ jobs:
     - uses: actions/checkout@v2
     # Setup Python using a existing action "actions/setup-python@v2" from Github's library of actions
     # Arguments are provided to this action using the key-values under "with"
-    - name: Set up Python 3.8
+    - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.7
     # Install the requirements for this library plus those for running out tests (flake8 and coverage)
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install flake8 coverage
-        pip install -r requirements.txt
+        pip install -e .
+        pip list
     # Run flake8 to do basic code quality checks, the output will appear in the action log
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --exit-zero --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=121 --statistics
     # Run the unit tests using the coverage program and create the XML output file
     - name: Test with unittest
       run: |
-        coverage run -m unittest tests/*.py
-        coverage xml
+        ./runtests.sh --coverage
     # Using Codecov's action, upload the coverage report for the triggering commit/PR
     - name: Upload coverage
       uses: codecov/codecov-action@v1

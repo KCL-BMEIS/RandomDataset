@@ -8,7 +8,7 @@ from contextlib import redirect_stdout
 
 import unittest
 
-from randomdataset import generate_dataset, print_test
+from randomdataset import generate_dataset, print_csv_test
 
 schema = """
 - typename: randomdataset.generators.CSVGenerator
@@ -33,8 +33,8 @@ schema = """
 class TestApplication(unittest.TestCase):
     def test_generate_dataset(self):
         with TemporaryDirectory() as d:
-            schema_file = os.path.join(d, 'schema.yml')
-            out_file = os.path.join(d, 'out.csv')
+            schema_file = os.path.join(d, "schema.yml")
+            out_file = os.path.join(d, "out.csv")
 
             with open(schema_file, "w") as o:
                 o.write(schema)
@@ -49,6 +49,6 @@ class TestApplication(unittest.TestCase):
     def test_print_test(self):
         tmp_out = StringIO()
         with redirect_stdout(tmp_out):
-            print_test()
+            print_csv_test()
 
         self.assertGreater(tmp_out.tell(), 0)

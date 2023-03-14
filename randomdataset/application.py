@@ -11,11 +11,11 @@ from ._version import __version__
 from .generators import DataGenerator
 from .schemaparser import parse_schema
 
-__all__ = ["generate_dataset", "print_test"]
+__all__ = ["generate_dataset", "print_csv_test"]
 
 
 @click.command("generate_dataset")
-@click.argument("schema", type=click.File('r', lazy=True))
+@click.argument("schema", type=click.File("r", lazy=True))
 @click.argument("output", type=click.Path(writable=True, resolve_path=True))
 @click.version_option(__version__, message="%(version)s")
 def generate_dataset(schema, output):
@@ -23,16 +23,18 @@ def generate_dataset(schema, output):
     This script generates a random dataset from a given YAML schema. SCHEMA is the input YAML schema file describing the
     fields and length of the dataset to generate. OUTPUT is the output file or directory to store the dataset.
     """
+
     click.echo(f"Schema: '{schema}'")
     click.echo(f"Output: '{output}'")
 
     generators: List[DataGenerator] = parse_schema(schema)
 
     for gen in generators:
+        print(f"Generating dataset '{gen.dataset.name}'")
         gen.write_to_target(output)
 
 
-def print_test():
+def print_csv_test():
     """
     Simple test routine which creates a schema, generates a small CSV file, and prints it to stdout.
     """

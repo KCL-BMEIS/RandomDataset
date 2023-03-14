@@ -28,6 +28,14 @@ randomdataset.dataset module
    :undoc-members:
    :show-inheritance:
 
+randomdataset.schemaparser module
+---------------------------------
+
+.. automodule:: randomdataset.schemaparser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 randomdataset.fields module
 ---------------------------
 
@@ -40,6 +48,14 @@ randomdataset.generator module
 ------------------------------
 
 .. automodule:: randomdataset.generator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+randomdataset.utils module
+--------------------------
+
+.. automodule:: randomdataset.utils
    :members:
    :undoc-members:
    :show-inheritance:

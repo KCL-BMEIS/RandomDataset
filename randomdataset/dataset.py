@@ -2,11 +2,14 @@
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
 
-from typing import Iterable, Optional, Tuple, Any
+from collections import defaultdict
+from typing import Iterable, Optional, Tuple, Any, List, Mapping
 from .fields import FieldGen, FieldTypes
 
 
 class Dataset:
+    _shared_state: Mapping[str, List[Any]] = defaultdict(list)
+
     def __init__(self, name: str, fields: Iterable[FieldGen]):
         self.name: str = name
         self._fields: Tuple[FieldGen] = tuple(fields)
@@ -57,6 +60,17 @@ class Dataset:
             return field((length,))
         else:
             return field()
+
+    def get_shared_state(self, state_name):
+        """Get the shared state mapped to `state_name`, raising exception if key not present."""
+        if state_name not in self._shared_state:
+            raise ValueError(f"Key {state_name} not found in shared state")
+
+        return self._shared_state[state_name]
+
+    def append_shared_state(self, state_name: str, data: Any):
+        """Append `data` to the list mapped to `state_name`, adding the new list if not present."""
+        self._shared_state[state_name].append(data)
 
     def __repr__(self):
         return f"Dataset({self.name}, Fields: {[f.name for f in self.fields]})"
