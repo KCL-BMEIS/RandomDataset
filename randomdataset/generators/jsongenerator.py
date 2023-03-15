@@ -2,12 +2,10 @@
 # Copyright (c) 2021 Eric Kerfoot, KCL, see LICENSE file
 
 import json
-from itertools import starmap
 from typing import IO
 
 from ..dataset import Dataset
 from .generator import DataGenerator
-from ..fields import FieldTypes
 
 __all__ = ["JSONGenerator"]
 
@@ -19,8 +17,6 @@ class JSONGenerator(DataGenerator):
         self.sep = ","
 
     def write_stream(self, stream: IO):
-        field_types = self.dataset.field_types
-
         stream.write("{\n")
         if self.write_header:
             line = self.get_header()
