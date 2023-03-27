@@ -13,3 +13,6 @@ The generated `conf.py` file was modified to add the current and parent director
 to the list of used extensions, and changing the html theme.
 
 Readthedocs additionally depends on the `.readthedocs.yaml` file in the project root. 
+
+The dependencies for the library itself were added to `requirements.txt` here since there isn't a `requirements.txt` in the root
+anymore, only the `pyproject.toml` file is present but Sphinx/readthedocs doesn't use this.

@@ -70,6 +70,8 @@ A relatively simple set of features which link into the code are set up on this 
 Both ReadTheDocs and Codecov are integrated with the repo as webhooks. These can be setup through their respective sites
 which require Github credentials to link with repos.
 
+## GitFlow
+
 This repo mostly follows [GitFlow](https://nvie.com/posts/a-successful-git-branching-model) with a `main` (`master`) branch 
 which is always the current release of the code, and a `dev` branch that is the development version of the code. 
 Branch protection rules are in place for `main` which ensure that code can only be committed to the branch through 
@@ -86,6 +88,11 @@ for merging `dev` into `main` when releases are done. The requirement for linear
 would have to be done as a new commit, in which case `dev` will remain ahead of `main` but also behind by 1. Instead administators can
 merge `dev` into `main` or rebase, regular contributors cannot and so maintain the relatively clear commit history of both branches.
 Merging feature or fix branches into `dev` will leave them ahead of `dev` but since these are throwaway this isn't an issue. 
+
+Development entails implementing features in separate branches of this repo which are merged into `dev` then discarded. When a release
+is to be done a merge PR from `dev` to `main` is made (which only admins can do) then a merge from `main` back to `dev` is done outside
+of a PR to ensure the two are synchronised. Fix branches can be created from either branch and merge into both by admins. PRs from forks
+are done into `dev` only if these are ever used.
 
 ## PyPI Release
 
