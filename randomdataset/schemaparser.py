@@ -72,10 +72,16 @@ def parse_obj_constr(schema_dict: Dict[str, Union[dict, list, tuple]]):
 
     sig = signature(typeconstr)
 
-    missing_params = [k for k, v in sig.parameters.items() if k not in schema_dict and v.default is Signature.empty]
+    missing_params = [
+        k
+        for k, v in sig.parameters.items()
+        if k not in schema_dict and v.default is Signature.empty
+    ]
 
     if missing_params:
-        raise ValueError(f"Missing values for these parameters of type '{typename}': {', '.join(missing_params)}")
+        raise ValueError(
+            f"Missing values for these parameters of type '{typename}': {', '.join(missing_params)}"
+        )
 
     args = {}
 
@@ -83,7 +89,10 @@ def parse_obj_constr(schema_dict: Dict[str, Union[dict, list, tuple]]):
         if isinstance(value, dict):
             arg = parse_obj_constr(value)
         elif isinstance(value, (list, tuple)):
-            arg = tuple(parse_obj_constr(item) if isinstance(item, dict) else item for item in value)
+            arg = tuple(
+                parse_obj_constr(item) if isinstance(item, dict) else item
+                for item in value
+            )
         else:
             arg = value
 

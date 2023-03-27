@@ -11,7 +11,9 @@ __all__ = ["DataGenerator"]
 
 
 class DataGenerator:
-    def __init__(self, dataset: Dataset, num_lines: int, file_mode: str = "w", file_ext: str = ""):
+    def __init__(
+        self, dataset: Dataset, num_lines: int, file_mode: str = "w", file_ext: str = ""
+    ):
         self.dataset = dataset
         self.num_lines = num_lines
         self.file_mode = file_mode
